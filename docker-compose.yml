@@ -27,7 +27,8 @@ services:
       - soundshare:/tmp/sharesound
     command: "-s pipe:///tmp/sharesound/snapfifo?name=Radio"
     ports:
-      - "1704"
+      - "1704:1704"
+      - "1705:1705"
     restart: unless-stopped
 
   #snapclient:
