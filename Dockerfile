@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:16.04
 
 
 RUN useradd -ms /bin/bash snapcast

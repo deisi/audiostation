@@ -7,48 +7,46 @@ services:
       - soundshare:/tmp/sharesound
 
   mopidy:
-    image: nolte/mopidy:development
-    expose:
-      - 6600
-      - 6680
+    image: deisi/mopidy
     ports:
       - "6600:6600"
       - "6680:6680"
-#    environment:
-#      - GST_DEBUG=3
     depends_on:
       - snapserver
       - data
     volumes:
       - ./mopidy-master.conf:/var/lib/mopidy/.config/mopidy/mopidy.conf:ro
       - soundshare:/tmp/sharesound
-    network_mode: "host"
+    restart: unless-stopped
 
   snapserver:
-    image: nolte/snapcast-server
+    image: deisi/snapcast-server
     depends_on:
       - data
     volumes:
       - soundshare:/tmp/sharesound
     command: "-s pipe:///tmp/sharesound/snapfifo?name=Radio"
+    ports:
+      - "1704"
+    restart: unless-stopped
 
-  snapclient:
-    image: nolte/snapcast-client
-    links:
-     - snapserver:snapserverhost
-    depends_on:
-      - snapserver
-    devices:
-     - "/dev/snd/:/dev/snd/"
-    command: "-h snapserverhost"
+  #snapclient:
+  #  image: deisi/snapcast-client
+  #  links:
+  #   - snapserver:snapserverhost
+  #  depends_on:
+  #    - snapserver
+  #  devices:
+  #   - "/dev/snd/:/dev/snd/"
+  #  command: "-h snapserver"
+  #  restart: unless-stopped
 
   upmpdcli:
-    image: nolte/upmpdcli:development
+    image: deisi/upmpdcli
     depends_on:
       - mopidy
-    command: "-h localhost -p 6600 -f mopidy"
-    network_mode: "host"
-
+    command: "-h mopidy -p 6600 -f mopidy"
+    restart: unless-stopped
 
 volumes:
   soundshare:
