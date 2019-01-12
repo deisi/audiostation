@@ -1,24 +1,16 @@
 # Audiostation Docker
 
-Network Audio Player with  [Mopidy](https://www.mopidy.com/),[SnapCast](https://github.com/badaix/snapcast) and [upmpdcli](https://www.lesbonscomptes.com/upmpdcli/).
+Network Audio Player with  [Mopidy](https://www.mopidy.com/) and [SnapCast](https://github.com/badaix/snapcast).
 
-Use [tkem/mopidy-dleyna](https://github.com/tkem/mopidy-dleyna) to load the Music from external Devices with [DLNA support](https://01.org/dleyna).  
 Use [UPnP](https://wikipedia.org/wiki/Universal_Plug_and_Play) for receiving the Music from Mobile Devices ([BubbleUPnP](https://play.google.com/store/apps/details?id=com.bubblesoft.android.bubbleupnp)) or other clients.
 
-I am using a [HiFiBerry Digi+](https://www.hifiberry.com/products/digiplus/) as additional sound card for my RPI2. The RPI are connected with [TOSLink](https://en.wikipedia.org/wiki/TOSLINK) to my Denon Audio Revceiver
-
-To Start the docker Contaieners on RPI i use [hypriot](https://blog.hypriot.com/) as base System image.
+## Configure
+Adjust `docker-compose.yml`. Specific configurations go into
+`docker-compose.overwrite.yml`.
 
 ## Starting
-
-Use for starting use on **RPI**
 ```
-docker-compose -f docker-compose-rpi.yml up
-```
-
-and on classic **amd64** Systems
-```
-docker-compose -f docker-compose.yml up
+docker-compose up
 ```
 
 after the containers are running you can open [http://localhost:6680](http://localhost:6680) and use the Mopdiy webfrontend.
@@ -31,7 +23,6 @@ after the containers are running you can open [http://localhost:6680](http://loc
 
 ## Structure
 
-You can find the used Dockerfiles at the GitHub repositories: [docker-snapcast](https://github.com/nolte/docker-snapcast), [docker-mopidy](https://github.com/nolte/docker-mopidy) and [docker-upmpdcli](https://github.com/nolte/docker-upmpdcli)
 
 #### Used Dockerimages
 
@@ -56,8 +47,3 @@ On Docker the fifo file will be create by a data container, all three containers
 - https://hub.docker.com/r/nolte/mopidy/
 - https://hub.docker.com/r/nolte/upmpdcli/
 
-**armhf**
-- https://hub.docker.com/r/nolte/rpi-snapcast-server/
-- https://hub.docker.com/r/nolte/rpi-snapcast-client/
-- https://hub.docker.com/r/nolte/rpi-mopidy/
-- https://hub.docker.com/r/nolte/rpi-upmpdcli/
