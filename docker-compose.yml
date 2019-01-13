@@ -32,10 +32,11 @@ services:
 
   spotify:
     container_name: spotify
-    image: audiostation/spotify:v1.0
+    image: audiostation/spotify:v1.1
     network_mode: "host"
     volumes:
       - /tmp/sharesound:/tmp/sharesound
+    restart: unless-stopped
 
   # Turn this on if you have no other snapcast client on the server
   #snapclient:
