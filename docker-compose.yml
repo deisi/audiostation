@@ -21,7 +21,7 @@ services:
     restart: unless-stopped
 
   snapserver:
-    image: audiostation/snapcast
+    image: audiostation/snapcast:v1.0
     volumes:
       - /tmp/sharesound:/tmp/sharesound
     command: "snapserver -s pipe:///tmp/sharesound/snapfifo?name=Radio"
@@ -30,9 +30,16 @@ services:
       - "1705:1705"
     restart: unless-stopped
 
+  spotify:
+    container_name: spotify
+    image: audiostation/spotify:v1.0
+    network_mode: "host"
+    volumes:
+      - /tmp/sharesound:/tmp/sharesound
+
   # Turn this on if you have no other snapcast client on the server
   #snapclient:
-  #  image: audiostation/snapcast
+  #  image: audiostation/snapcast:v1.0
   #  links:
   #   - snapserver:snapserverhost
   #  depends_on:
