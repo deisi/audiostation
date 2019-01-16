@@ -50,7 +50,7 @@ services:
     image: audiostation/upmpdcli:1.0
     command: "-h mopidy"
     # Host mode needed for advertisement
-    netowk_mode: "host"
+    netowrk_mode: "host"
     #ports:
     #  - "1900/udp:1900/udp"
     #  - 49152:49152
