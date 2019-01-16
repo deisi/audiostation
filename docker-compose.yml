@@ -38,7 +38,6 @@ services:
     restart: unless-stopped
 
   spotify:
-    container_name: spotify
     image: audiostation/spotify:1.2
     # host mode is needed for Spotifyd advertisement
     network_mode: "host"
@@ -46,6 +45,16 @@ services:
       # The volume with the sharesound fifo for snapcast to work
       - /tmp/sharesound:/tmp/sharesound
     restart: unless-stopped
+
+  upmpdcli:
+    image: audiostation/upmpdcli:1.0
+    command: "-h mopidy"
+    # Host mode needed for advertisement
+    netowk_mode: "host"
+    #ports:
+    #  - "1900/udp:1900/udp"
+    #  - 49152:49152
+
 
   # Turn this on if you have no other snapcast client on the server
   #snapclient:
