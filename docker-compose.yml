@@ -1,12 +1,12 @@
 version: '3'
 
 volumes:
-  mopidy_config:
+  # A volume to store mopify data in a persitent way.
   mopidy_data:
 
 services:
   mopidy:
-    image: audiostation/mopidy:v1.1
+    image: audiostation/mopidy:1.2
     ports:
       - "6600:6600"
       - "6680:6680"
@@ -14,27 +14,36 @@ services:
     depends_on:
       - snapserver
     volumes:
+      # The volume with the sharesound fifo for snapcast to work
       - /tmp/sharesound:/tmp/sharesound
-      - mopidy_config:/etc/mopidy
+      # A config of mopidy that pipes audio into the snapfifo
       - ./mopidy-master.conf:/etc/mopidy/mopidy.conf:ro
       - mopidy_data:/var/lib/mopidy
     restart: unless-stopped
 
   snapserver:
-    image: audiostation/snapcast:v1.0
+    image: audiostation/snapcast:1.1
     volumes:
+      # The volume with the sharesound fifo for snapcast to work
       - /tmp/sharesound:/tmp/sharesound
     command: "snapserver -s pipe:///tmp/sharesound/snapfifo?name=Radio"
-    ports:
-      - "1704:1704"
-      - "1705:1705"
+    # host mode is needed for snapserver advertisement
+    network_mode: "host"
+    # Instead of hostmode you can allow the specific snapcast ports.
+    # This is more secure, but has the drawback, that advertisement
+    # doesn't work.
+    #ports:
+    #  - "1704:1704"
+    #  - "1705:1705"
     restart: unless-stopped
 
   spotify:
     container_name: spotify
-    image: audiostation/spotify:v1.1
+    image: audiostation/spotify:1.2
+    # host mode is needed for Spotifyd advertisement
     network_mode: "host"
     volumes:
+      # The volume with the sharesound fifo for snapcast to work
       - /tmp/sharesound:/tmp/sharesound
     restart: unless-stopped
 
