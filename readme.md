@@ -1,4 +1,5 @@
 **This is currently under heavy development. It most likely will not work right now.**
+[![Build Status](https://travis-ci.org/deisi/audiostation.svg?branch=master)](https://travis-ci.org/deisi/audiostation)
 
 # Audiostation Docker
 
