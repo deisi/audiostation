@@ -19,8 +19,8 @@ jobs:
 
 script:
   - docker-compose -f $compose_file build
-  - docker-compose up -d
-  - docker-compose down
+  - docker-compose -f $compose_file up -d
+  - docker-compose -f $compose_file down
 
 stages:
   - build
