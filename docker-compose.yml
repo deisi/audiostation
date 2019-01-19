@@ -6,7 +6,7 @@ volumes:
 
 services:
   mopidy:
-    image: audiostation/mopidy:1.2
+    image: audiostation/mopidy:latest
     ports:
       - "6600:6600"
       - "6680:6680"
@@ -22,7 +22,7 @@ services:
     restart: unless-stopped
 
   snapserver:
-    image: audiostation/snapcast:1.1
+    image: audiostation/snapcast:latest
     volumes:
       # The volume with the sharesound fifo for snapcast to work
       - /tmp/sharesound:/tmp/sharesound
@@ -32,7 +32,7 @@ services:
     restart: unless-stopped
 
   spotify:
-    image: audiostation/spotify:1.2
+    image: audiostation/spotify:latest
     # host mode is needed for Spotifyd advertisement
     network_mode: "host"
     depends_on:
@@ -43,7 +43,7 @@ services:
     restart: unless-stopped
 
   upmpdcli:
-    image: audiostation/upmpdcli:1.0
+    image: audiostation/upmpdcli:latest
     command: "-h mopidy -f Audiostation"
     depends_on:
       - mopidy
@@ -64,7 +64,7 @@ services:
 
   # Turn this on if you have no other snapcast client on the server
   #snapclient:
-  #  image: audiostation/snapcast:v1.0
+  #  image: audiostation/snapcast:latest
   #  links:
   #   - snapserver:snapserverhost
   #  depends_on:
