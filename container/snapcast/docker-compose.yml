@@ -4,4 +4,4 @@ services:
   snapclient:
     build:
       context: .
-    image: audiostation/snapcast:v1.0
+    image: audiostation/snapcast:latest

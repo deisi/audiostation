@@ -5,5 +5,5 @@ services:
     build:
       context: .
     container_name: upmpdcli
-    image: audiostation/upmpdcli
+    image: audiostation/upmpdcli:latest
     network_mode: "host"

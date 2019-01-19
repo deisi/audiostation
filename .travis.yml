@@ -3,12 +3,18 @@ services:
 
 jobs: 
   include:
-    env:
-      - compose_file: container/mopidy/docker-compose.yml
-      - compose_file: container/snapcasst/docker-compose.yml
-      - compose_file: container/spotify/docker-compose.yml
-      - compose_file: container/upmpdcli/docker-compose.yml
     - stage: build
+      env:
+        - compose_file: container/mopidy/docker-compose.yml
+      script: bash ./build.sh
+    - env:
+        - compose_file: container/snapcasst/docker-compose.yml
+      script: bash ./build.sh
+    - env:
+        - compose_file: container/spotify/docker-compose.yml
+      script: bash ./build.sh
+    - env:
+        - compose_file: container/upmpdcli/docker-compose.yml
       script: bash ./build.sh
     - stage: deploy
       env:
