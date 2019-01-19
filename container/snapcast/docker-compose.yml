@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+  snapclient:
+    build:
+      context: .
+    image: audiostation/snapcast:v1.0

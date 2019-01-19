@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  mopidy:
+    build:
+      context: .
+    container_name: mopidy
+    image: audiostation/mopidy
+    ports:
+      - "6600:6600"
+      - "6680:6680"
+      - "5555:5555"

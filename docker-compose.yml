@@ -17,7 +17,7 @@ services:
       # The volume with the sharesound fifo for snapcast to work
       - /tmp/sharesound:/tmp/sharesound
       # A config of mopidy that pipes audio into the snapfifo
-      - ./mopidy-master.conf:/etc/mopidy/mopidy.conf:ro
+      - ./mopidy.conf:/etc/mopidy/mopidy.conf:ro
       - mopidy_data:/var/lib/mopidy
     restart: unless-stopped
 
@@ -29,18 +29,14 @@ services:
     command: "snapserver -s pipe:///tmp/sharesound/snapfifo?name=Radio"
     # host mode is needed for snapserver advertisement
     network_mode: "host"
-    # Instead of hostmode you can allow the specific snapcast ports.
-    # This is more secure, but has the drawback, that advertisement
-    # doesn't work.
-    #ports:
-    #  - "1704:1704"
-    #  - "1705:1705"
     restart: unless-stopped
 
   spotify:
     image: audiostation/spotify:1.2
     # host mode is needed for Spotifyd advertisement
     network_mode: "host"
+    depends_on:
+      - snapserver
     volumes:
       # The volume with the sharesound fifo for snapcast to work
       - /tmp/sharesound:/tmp/sharesound
@@ -48,12 +44,22 @@ services:
 
   upmpdcli:
     image: audiostation/upmpdcli:1.0
-    command: "-h mopidy"
+    command: "-h mopidy -f Audiostation"
+    depends_on:
+      - mopidy
     # Host mode needed for advertisement
     network_mode: "host"
-    #ports:
-    #  - "1900/udp:1900/udp"
-    #  - 49152:49152
+
+  # Not working
+  #airplay:
+  #  image: audiostation/airplay:1.0
+  #  network_mode: "host"
+  #  depends_on:
+  #    - snapserver
+  #  restart: unless-stopped
+  #  volumes:
+  #    #- ./shairport-sync.conf:/etc/shairport-sync.conf:ro
+  #    - /tmp/sharesound:/tmp/sharesound
 
 
   # Turn this on if you have no other snapcast client on the server

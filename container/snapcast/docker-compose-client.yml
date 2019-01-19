@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  snapclient:
+    container_name: snapclient
+  #  links:
+  #   - snapserver:snapserverhost
+    image: audiostation/snapcast:v1.0
+    # Must put name of snapserver here
+    # because avahi doesnt work
+    command: "snapclient -h snapserver"
+    devices:
+     - "/dev/snd/:/dev/snd/"

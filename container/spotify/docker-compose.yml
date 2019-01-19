@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  spotify:
+    build:
+      context: .
+    container_name: spotify
+    image: audiostation/spotify
+    network_mode: "host"
+    volumes:
+      - /tmp/sharesound:/tmp/sharesound
