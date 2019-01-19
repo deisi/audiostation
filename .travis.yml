@@ -6,20 +6,21 @@ jobs:
     - stage: build
       env:
         - compose_file: container/mopidy/docker-compose.yml
-      script: bash ./build.sh
     - env:
-        - compose_file: container/snapcasst/docker-compose.yml
-      script: bash ./build.sh
+        - compose_file: container/snapcast/docker-compose.yml
     - env:
         - compose_file: container/spotify/docker-compose.yml
-      script: bash ./build.sh
     - env:
         - compose_file: container/upmpdcli/docker-compose.yml
-      script: bash ./build.sh
     - stage: deploy
       env:
         - compose_file: docker-compose.yml
-      script: bash ./build.sh
+
+
+script:
+  - docker-compose -f $compose_file build
+  - docker-compose up -d
+  - docker-compose down
 
 stages:
   - build
