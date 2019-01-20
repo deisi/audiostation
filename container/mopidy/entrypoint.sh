@@ -5,4 +5,5 @@ then
     cp /etc/default/mopidy.conf  /etc/mopidy/mopidy.conf
 fi
 
-mopidy --config /etc/mopidy/mopidy.conf
+mopidy --config /etc/mopidy/mopidy.conf local scan "$@"
+mopidy --config /etc/mopidy/mopidy.conf "$@"

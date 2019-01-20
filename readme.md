@@ -1,20 +1,39 @@
-**This is currently under heavy development. It most likely will not work right now.**
 [![Build Status](https://travis-ci.org/deisi/audiostation.svg?branch=master)](https://travis-ci.org/deisi/audiostation)
 
-# Audiostation Docker
+# Audiostation
 
-Flexible multiroom audio project. Its a fork of
-https://github.com/nolte/docker_compose-audiostation but adjusted for my needs.
+Opensource multiroom audio project. Easy to install and use.
 
-[SnapCast](https://github.com/badaix/snapcast) for multiroom/speaker support,
-[Mopidy](https://www.mopidy.com/) for local data, web radio stations and.
-[Spotifyd](https://github.com/Spotifyd/spotifyd) for [Spotify
-Connect](https://www.spotify.com/de/connect/) compatibility.
+Provides the following:
+- [Mopidy](https://www.mopidy.com/): local data and web radio stations
+- [Spotifyd](https://github.com/Spotifyd/spotifyd): [Spotify
+Connect](https://www.spotify.com/de/connect/) compatibility
+- [upmpdcli](https://www.lesbonscomptes.com/upmpdcli/): upnp/dlna streaming
+- [SnapCast](https://github.com/badaix/snapcast): syncronous playback on multiple clients
 
-Use [UPnP](https://wikipedia.org/wiki/Universal_Plug_and_Play) for receiving the
-Music from Mobile Devices
-([BubbleUPnP](https://play.google.com/store/apps/details?id=com.bubblesoft.android.bubbleupnp))
-or Spotify app to stream music in any room of your house
+## Quickstart
+Install docker and docker-compose.
+```
+git clone https://github.com/deisi/audiostation.git
+cd audiostation
+sudo docker-compose up -d
+```
+
+Run [snapcasts](https://github.com/badaix/snapcast) snapclient on various
+clients throughout your house and enjoy synchronous playback. Possible clients
+are Raspberrypis, Android phones, mips devices like routers or any x86 pc that
+runs linux. Take a look at https://github.com/badaix/snapcast/releases for ready
+to use releases.
+
+Open spotify and play audio via Audiostation on all snapclients. Use
+[bubbleupnp](https://play.google.com/store/apps/details?id=com.bubblesoft.android.bubbleupnp&hl=de)
+or any other upnp controller software to play audio from your cell phone or [
+kodi ](https://kodi.tv/) throughout your house. Open
+[http://localhost:6680](http://localhost:6680) on the Audiostation server and
+use the Mopdiy web interface.
+
+## Configure
+Adjust `docker-compose.yml` or add a ``docker-compose.overwrite.yml`.
 
 ## Goal
 
@@ -39,36 +58,14 @@ player at once or just some.
 
 ## Plans
 
-- [ ] Airplay via [Shairport-Sync](https://github.com/mikebrady/shairport-sync) 
-- [ ] Upnp/DLNA via [upmpdcli](https://www.lesbonscomptes.com/upmpdcli/)
+- Airplay via [Shairport-Sync](https://github.com/mikebrady/shairport-sync) 
+- pulseaudio
+- armhf builds for raspberrypis
+- ready to use clients
 - Suggestions?
 
-## Configure
-Adjust `docker-compose.yml` or add a ``docker-compose.overwrite.yml`.
 
-## Starting
-From the folder with `docker-compose.yml`:
-```
-docker-compose up
-```
-
-after the containers are running you can open
-[http://localhost:6680](http://localhost:6680) and use the Mopdiy webfrontend.
-
-**don`t forget** Mopidy has a [HTTP JSON-RPC
-API](https://docs.mopidy.com/en/latest/api/http/) and can be integrated to
-[home-assistant.io](https://home-assistant.io/components/media_player.mpd/).
-
-You can also play music from spotify via Spotifyd. Open the spotify app and take
-a look at availabe player. Spotifyd should advertise itself right away.
-
-
-**Tested Android UPnP Apps**
-
-- [BubbleUPnP](https://play.google.com/store/apps/details?id=com.bubblesoft.android.bubbleupnp),
-  works so good that i bought the Full Version, and did not test more apps.
-
-## Structure
+## About
 
 [Snapcast](https://github.com/badaix/snapcast) is the core of the
 project. It allows to stream music from one server (*snapserver*) to multiple
@@ -78,31 +75,35 @@ Currently [Snapcast](https://github.com/badaix/snapcasst) supports **Android**,
 **amd64**(Linux), **armhf**(Raspberrypi) and **mips**(Router). A Windows Client
 is planned but not released yet.
 
+Snapcast adds a delay of about 1s to its audio pipeline. If you want to be able
+to watch video with this, you need to find a way to delay the video by the same
+amount of time. If you want to play an ego shooter game with this you will be
+disapointed. Snapcast provides no way of "realtime" processing, as large buffers
+are build in to cope with bad network/soundcard constrains.
+
 As players [Mopidy](https://www.mopidy.com/) and
 [Spotifyd](https://github.com/Spotifyd/spotifyd) are used but more are planned. 
 
 
-#### Used Dockerimages
+### Dockerimages
 
-The Dockerimages of the players share a common fifo at `/tmp/sharesound/snapfifo`
+The Dockerimages of the player share a common fifo at
+`/tmp/sharesound/snapfifo`. On Docker the fifo file will be create by a data
+container, all containers share a
+[volume](https://docs.docker.com/compose/compose-file/#volumes) which contains
+the shared file. Containers are pre configured to pipe audio into the fifo
+for out of the box functionality.
 
-The Connection between the Moidy Container and the [SnapCast Server](https://github.com/badaix/snapcast) runs over a fifo file, configured as output in Mopidy.
+Containers should be as small as possible and thus based on alpine if possible. 
 
-```
-...
-[audio]
-output = audioresample ! audioconvert ! audio/x-raw,rate=48000,channels=2,format=S16LE ! wavenc ! filesink location=/tmp/sharesound/snapfifo
-...
-```
-form [snapcast player setup ](https://github.com/badaix/snapcast/blob/master/doc/player_setup.md#mopidy)
-
-
-On Docker the fifo file will be create by a data container, all three containers share a [volume](https://docs.docker.com/compose/compose-file/#volumes) which contains the shared file.
-
-##### Docker Hub Used Images
+#### Docker Hub Used Images
 
 **amd64**
 - https://hub.docker.com/r/audiostation/snapcast
 - https://hub.docker.com/r/audiostation/spotify
 - https://hub.docker.com/r/audiostation/mopidy
+- https://hub.docker.com/r/audiostation/upmpdcli
 
+
+## Credits
+Its a fork of https://github.com/nolte/docker_compose-audiostation.

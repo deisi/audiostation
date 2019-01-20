@@ -5,6 +5,16 @@ volumes:
   mopidy_data:
 
 services:
+  snapserver:
+    image: audiostation/snapcast:latest
+    volumes:
+      # The volume with the sharesound fifo for snapcast to work
+      - /tmp/sharesound:/tmp/sharesound
+    command: "snapserver -s pipe:///tmp/sharesound/snapfifo?name=Radio"
+    # host mode is needed for snapserver advertisement
+    network_mode: "host"
+    restart: unless-stopped
+
   mopidy:
     image: audiostation/mopidy:latest
     ports:
@@ -16,19 +26,10 @@ services:
     volumes:
       # The volume with the sharesound fifo for snapcast to work
       - /tmp/sharesound:/tmp/sharesound
-      # A config of mopidy that pipes audio into the snapfifo
-      - ./mopidy.conf:/etc/mopidy/mopidy.conf:ro
-      - mopidy_data:/var/lib/mopidy
-    restart: unless-stopped
-
-  snapserver:
-    image: audiostation/snapcast:latest
-    volumes:
-      # The volume with the sharesound fifo for snapcast to work
-      - /tmp/sharesound:/tmp/sharesound
-    command: "snapserver -s pipe:///tmp/sharesound/snapfifo?name=Radio"
-    # host mode is needed for snapserver advertisement
-    network_mode: "host"
+      # Makes mopidy data persistent
+      - mopidy_data:/data
+      # Add local music folder
+      # local_music_folder:/music:ro
     restart: unless-stopped
 
   spotify:

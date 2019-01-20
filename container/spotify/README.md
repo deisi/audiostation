@@ -1,38 +1,10 @@
 [![](https://images.microbadger.com/badges/image/audiostation/spotify.svg)](https://microbadger.com/images/audiostation/spotify "Get your own image badge on microbadger.com")
 [![](https://images.microbadger.com/badges/version/audiostation/spotify.svg)](https://microbadger.com/images/audiostation/spotify "Get your own version badge on microbadger.com")
-[![Build Status](https://travis-ci.org/deisi/audiostation-spotify.svg?branch=master)](https://travis-ci.org/deisi/audiostation-spotify)
 
-docker.io Spotifyd - Spotify Device + Remote Control
-===================================================
+[Spotify](https://github.com/Spotifyd/spotifyd) container of the
+[audiostation](https://github.com/deisi/audiostation) project.
 
-Simple dockerfile with spotifyd. This container ist for the audiosation project. Documentation might be wrong.
-
-
-Configure it
-------------
-
-Edit the `spotifyd/spotifyd.conf` to fit your needs. 
-For complete configuration options, see https://github.com/Spotifyd/spotifyd
-
-
-Pull the image it
---------
-
-`docker pull audiostation/spotify`
-
-
-Run it
-------
-
-Replace the variables
-
-docker run \
-     -p 6767:6767 \
-      audiostation/spotifyd
-```
-
-
-Ports
------
-
-* `6767` - Spotifyd remote control server
+# Spotifyd
+[Spotifyd](https://github.com/Spotifyd/spotifyd) is an open source Spotify
+connect client. It advertises itself on the local network and allows 
+streaming to it via spotify without configuration.

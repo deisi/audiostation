@@ -2,15 +2,6 @@ FROM alpine:3.8
 
 RUN mkdir /etc/default && mkdir /etc/mopidy
 
-##  Copy fallback configuration.
-COPY mopidy.conf /etc/default/mopidy.conf
-
-#  Copy default configuration.
-COPY mopidy.conf /etc/mopidy/mopidy.conf
-
-# Copy helper script.
-COPY entrypoint.sh /entrypoint.sh
-
 RUN apk update \
   && apk upgrade \
   && apk add --no-cache \
@@ -35,7 +26,16 @@ RUN apk add --no-cache \
 ## Install extensions
 RUN pip install -U Mopidy-MusicBox-Webclient
 
-VOLUME ["/etc/mopidy", "/var/lib/mopidy"]
+##  Copy fallback configuration.
+COPY mopidy.conf /etc/default/mopidy.conf
+
+#  Copy default configuration.
+COPY mopidy.conf /etc/mopidy/mopidy.conf
+
+# Copy helper script.
+COPY entrypoint.sh /entrypoint.sh
+
+VOLUME ["/data", "/cache"]
 
 EXPOSE 6600 6680 5555/udp
 
