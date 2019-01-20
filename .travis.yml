@@ -5,22 +5,25 @@ jobs:
   include:
     - stage: build
       env:
-        - compose_file: container/mopidy/docker-compose.yml
+        - container: mopidy
     - env:
-        - compose_file: container/snapcast/docker-compose.yml
+        - container: snapcast
     - env:
-        - compose_file: container/spotify/docker-compose.yml
+        - container: spotify
     - env:
-        - compose_file: container/upmpdcli/docker-compose.yml
-    - stage: deploy
-      env:
-        - compose_file: docker-compose.yml
-
+        - container: upmpdcli
+    - stage: compose
+      script:
+        - docker-compose build
+        - docker-compose up -d
+        - docker-compose down
 
 script:
-  - docker-compose -f $compose_file build
-  - docker-compose -f $compose_file up -d
-  - docker-compose -f $compose_file down
+  - docker-compose -f container/$container/docker-compose.yml build
+  - docker-compose -f container/$container/docker-compose.yml up -d
+  - docker-compose -f container/$container/docker-compose.yml down
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker-compose push
 
 stages:
   - build
