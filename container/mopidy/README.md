@@ -15,4 +15,3 @@ take a look at https://github.com/wernight/docker-mopidy.
 ## Fetures
 - Minimal footprint 
 - Webinterface via musicbox_webclient
-- 

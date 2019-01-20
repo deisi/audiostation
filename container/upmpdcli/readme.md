@@ -1,7 +1,7 @@
 [![](https://images.microbadger.com/badges/image/audiostation/upmpdcli.svg)](https://microbadger.com/images/audiostation/upmpdcli "Get your own image badge on microbadger.com")
 [![](https://images.microbadger.com/badges/version/audiostation/upmpdcli.svg)](https://microbadger.com/images/audiostation/upmpdcli "Get your own version badge on microbadger.com")
 
-[upmpdcli](https://www.lesbonscomptes.com/upmpdcli/) container of the audiostation project.
+[upmpdcli](https://www.lesbonscomptes.com/upmpdcli/) container of the [audiostation](https://github.com/deisi/audiostation) project.
 
 # UpMpdCli
 [upmpdcli](https://www.lesbonscomptes.com/upmpdcli/) makes it possible to send
