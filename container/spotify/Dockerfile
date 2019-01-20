@@ -1,10 +1,16 @@
 FROM debian:jessie-slim
 MAINTAINER Malte Deiseroth <mdeiseroth88@gmail.com>
+ARG VERSION=v0.2.3
+ARG DATE=2018-10-21
+ARG ARCH=amd64
+
 
 RUN apt-get update -qq
-RUN apt-get install -yqq libasound2 libvorbisfile3 curl unzip
-RUN curl -LOk `curl --silent https://api.github.com/repos/spotifyd/spotifyd/releases/latest | /usr/bin/awk '/browser_download_url/ { print $2 }' | grep amd64 | /bin/sed 's/"//g'` > /tmp/spotifyd.zip
+RUN apt-get install -yqq libasound2 libvorbisfile3 unzip wget
+RUN wget https://github.com/Spotifyd/spotifyd/releases/download/$VERSION/spotifyd-$DATE-$ARCH.zip > /tmp/spotifyd.zip
 RUN unzip /*.zip -d /usr/bin
+RUN apt-get remove -y --purge unzip wget
+RUN apt-get autoremove -y
 
 RUN rm /*.zip
 ADD entrypoint.sh /usr/bin
