@@ -33,7 +33,7 @@ kodi ](https://kodi.tv/) throughout your house. Open
 use the Mopdiy web interface.
 
 ## Configure
-Adjust `docker-compose.yml` or add a ``docker-compose.overwrite.yml`.
+Adjust `docker-compose.yml` or add a `docker-compose.overwrite.yml`.
 
 ## Goal
 
@@ -90,13 +90,12 @@ As players [Mopidy](https://www.mopidy.com/) and
 The Dockerimages of the player share a common fifo at
 `/tmp/sharesound/snapfifo`. On Docker the fifo file will be create by a data
 container, all containers share a
-[volume](https://docs.docker.com/compose/compose-file/#volumes) which contains
-the shared file. Containers are pre configured to pipe audio into the fifo
-for out of the box functionality.
+[volume](https://docs.docker.com/compose/compose-file/#volumes) containing the
+shared file. Containers are pre configured to pipe audio into the fifo.
 
 Containers should be as small as possible and thus based on alpine if possible. 
 
-#### Docker Hub Used Images
+#### Docker Hub Images
 
 **amd64**
 - https://hub.docker.com/r/audiostation/snapcast
