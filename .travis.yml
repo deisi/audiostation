@@ -23,7 +23,7 @@ script:
   - docker-compose -f container/$container/docker-compose.yml up -d
   - docker-compose -f container/$container/docker-compose.yml down
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - docker-compose push audiostation/$container:latest
+  - docker push audiostation/$container:latest
 
 stages:
   - build
