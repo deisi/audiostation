@@ -66,18 +66,19 @@ jobs:
         - docker-compose -f $DOCKERFILE down
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
         - docker push audiostation/$CONTAINER:${ARCH}
-    - env:
-        - CONTAINER: upmpdcli
-        - ARCH: armv6
-        - FROMIMAGE: multiarch/alpine:armhf-v3.8
-        - DOCKERFILE: container/upmpdcli/docker-compose.yml
-      script:
-        - docker run --rm --privileged multiarch/qemu-user-static:register --reset
-        - docker-compose -f $DOCKERFILE build $CONTAINER
-        - docker-compose -f $DOCKERFILE up -d
-        - docker-compose -f $DOCKERFILE down
-        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-        - docker push audiostation/$CONTAINER:${ARCH}
+    # Doesnt exist yet
+    #- env:
+    #    - CONTAINER: upmpdcli
+    #    - ARCH: armv6
+    #    - FROMIMAGE: multiarch/alpine:armhf-v3.8
+    #    - DOCKERFILE: container/upmpdcli/docker-compose.yml
+    #  script:
+    #    - docker run --rm --privileged multiarch/qemu-user-static:register --reset
+    #    - docker-compose -f $DOCKERFILE build $CONTAINER
+    #    - docker-compose -f $DOCKERFILE up -d
+    #    - docker-compose -f $DOCKERFILE down
+    #    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    #    - docker push audiostation/$CONTAINER:${ARCH}
     - stage: compose
       script:
         - docker-compose build
