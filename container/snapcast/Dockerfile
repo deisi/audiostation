@@ -13,13 +13,11 @@ RUN apk -U add \
   flac-dev \
   libvorbis-dev \
   alsa-lib-dev
-RUN cd /root
-RUN git clone --recursive https://github.com/badaix/snapcast.git
-RUN cd snapcast
-RUN  git checkout tags/${SNAPCASTVERSION} -b ${SNAPCASTVERSION}
-RUN make \
-RUN cp server/snapserver client/snapclient /usr/local/bin
-RUN cd /
+RUN git clone --recursive https://github.com/badaix/snapcast.git \
+  && cd snapcast \
+  && git checkout tags/${SNAPCASTVERSION} -b ${SNAPCASTVERSION} \
+  && make \
+  && cp server/snapserver client/snapclient /usr/local/bin
 RUN apk --purge del git bash build-base asio-dev bash avahi-dev flac-dev libvorbis-dev alsa-lib-dev
 RUN apk add avahi-libs flac libvorbis alsa-lib
-RUN rm -rf /etc/ssl /var/cache/apk/* /lib/apk/db/* /root/snapcast
+RUN rm -rf /etc/ssl /var/cache/apk/* /lib/apk/db/* /snapcast

@@ -1,10 +1,9 @@
 version: '3'
 
 services:
-  snapclient:
+  snapcast:
     build:
       context: .
       args:
-        - arch
         - fromimage
-    image: audiostation/snapcast:${arch}
+        - arch
