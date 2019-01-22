@@ -8,6 +8,7 @@ services:
         - ARCH
         - FROMIMAGE
     container_name: spotify
+    image: "audiostation/spotify:${ARCH}"
     network_mode: "host"
     volumes:
       - /tmp/sharesound:/tmp/sharesound

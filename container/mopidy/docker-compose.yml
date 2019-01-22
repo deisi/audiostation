@@ -1,12 +1,13 @@
-version: '3'
+version: "3"
 
 services:
   mopidy:
     build:
       context: .
       args:
-        - fromimage
-    container_name: mopidy
+        - FROMIMAGE
+    container_name: "mopidy"
+    image: "audiostation/mopidy:${ARCH}"
     ports:
       - "6600:6600"
       - "6680:6680"

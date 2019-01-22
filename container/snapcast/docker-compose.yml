@@ -6,3 +6,4 @@ services:
       context: .
       args:
         - FROMIMAGE
+    image: "audiostation/snapcast:${ARCH}"
