@@ -5,6 +5,7 @@ before_install:
   - sudo apt-get install qemu-system-arm
 
 before_script:
+  - export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then if [ "$TRAVIS_BRANCH" = "master" ]; then echo ""; else echo "-$TRAVIS_BRANCH"; fi; else echo ""; fi)
 
 jobs: 
   include:
@@ -36,7 +37,7 @@ jobs:
         - docker-compose -f $dockerfile up -d
         - docker-compose -f $dockerfile down
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-        - docker push audiostation/$container:${ARCH}
+        - docker push audiostation/$container:${ARCH}${BRANCH}
     - env:
         - container: snapcast
         - ARCH: "armv6"
@@ -47,7 +48,7 @@ jobs:
         - docker-compose -f $dockerfile up -d
         - docker-compose -f $dockerfile down
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-        - docker push audiostation/$container:${ARCH}
+        - docker push audiostation/$container:${ARCH}${BRANCH}
     - env:
         - container: spotify
         - ARCH: "armv6"
@@ -58,7 +59,7 @@ jobs:
         - docker-compose -f $dockerfile up -d
         - docker-compose -f $dockerfile down
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-        - docker push audiostation/$container:${ARCH}
+        - docker push audiostation/$container:${ARCH}${BRANCH}
     - env:
         - container: upmpdcli
         - ARCH: "armv6"
@@ -69,7 +70,7 @@ jobs:
         - docker-compose -f $dockerfile up -d
         - docker-compose -f $dockerfile down
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-        - docker push audiostation/$container:${ARCH}
+        - docker push audiostation/$container:${ARCH}${BRANCH}
     - stage: compose
       script:
         - docker-compose build
@@ -81,4 +82,4 @@ script:
   - docker-compose -f $dockerfile up -d
   - docker-compose -f $dockerfile down
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - docker push audiostation/$container:${ARCH}
+  - docker push audiostation/$container:${ARCH}${BRANCH}
