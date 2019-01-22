@@ -1,4 +1,4 @@
-FROM alpine:3.8
+FROM multiarch/alpine:3.8
 
 RUN mkdir /etc/default && mkdir /etc/mopidy
 

@@ -26,13 +26,7 @@ jobs:
         - container: upmpdcli
         - ARCH: "amd64"
         - dockerfile: container/upmpdcli/docker-compose.yml
-    - stage: compose
-      script:
-        - docker-compose build
-        - docker-compose up -d
-        - docker-compose down
-    - stage: Build arm
-      env:
+    - env:
         - container: mopidy
         - ARCH: "armv6"
         - dockerfile: container/mopidy/docker-compose.yml
@@ -76,6 +70,11 @@ jobs:
         - docker-compose -f $dockerfile down
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
         - docker push audiostation/$container:${ARCH}
+    - stage: compose
+      script:
+        - docker-compose build
+        - docker-compose up -d
+        - docker-compose down
 
 script:
   - docker-compose -f $dockerfile build

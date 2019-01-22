@@ -1,4 +1,4 @@
-FROM alpine:3.8
+FROM multiarch/alpine:3.8
 
 WORKDIR /data
 ARG SNAPCASTVERSION=v0.15.0

@@ -1,4 +1,4 @@
-FROM debian:jessie-slim
+FROM multiarch/debian:jessie-slim
 MAINTAINER Malte Deiseroth <mdeiseroth88@gmail.com>
 ARG VERSION="v0.2.3"
 # for some reason there is a version and a date o.O
