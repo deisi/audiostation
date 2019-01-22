@@ -4,6 +4,8 @@ services:
   upmpdcli:
     build:
       context: .
+      args:
+        - ARCH
     container_name: upmpdcli
-    image: audiostation/upmpdcli:latest
+    image: audiostation/upmpdcli:${ARCH}
     network_mode: "host"

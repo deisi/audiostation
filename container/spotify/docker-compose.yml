@@ -7,7 +7,7 @@ services:
       args:
         - ARCH
     container_name: spotify
-    image: audiostation/spotify:latest
+    image: audiostation/spotify:${ARCH}
     network_mode: "host"
     volumes:
       - /tmp/sharesound:/tmp/sharesound

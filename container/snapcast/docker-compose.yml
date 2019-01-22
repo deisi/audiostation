@@ -4,4 +4,6 @@ services:
   snapclient:
     build:
       context: .
-    image: audiostation/snapcast:latest
+      args:
+        - ARCH
+    image: audiostation/snapcast:${ARCH}

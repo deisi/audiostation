@@ -1,17 +1,26 @@
 services:
   - docker
 
+before_install:
+  - sudo apt-get install qemu-system-arm
+
+before_script:
+
 jobs: 
   include:
+    # AMD64 builds
     - stage: build
       env:
         - container: mopidy
+        - ARCH: "amd64"
         - dockerfile: container/mopidy/docker-compose.yml
     - env:
         - container: snapcast
+        - ARCH: "amd64"
         - dockerfile: container/snapcast/docker-compose.yml
     - env:
         - container: spotify
+        - ARCH: "amd64"
         - dockerfile: container/spotify/docker-compose.yml
     - env:
         - container: upmpdcli
@@ -22,10 +31,55 @@ jobs:
         - docker-compose build
         - docker-compose up -d
         - docker-compose down
+    - stage: Build arm
+      env:
+        - container: mopidy
+        - ARCH: "armv6"
+        - dockerfile: container/mopidy/docker-compose.yml
+      script:
+        - docker run --rm --privileged multiarch/qemu-user-static:register --reset
+        - docker-compose -f $dockerfile build
+        - docker-compose -f $dockerfile up -d
+        - docker-compose -f $dockerfile down
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        - docker push audiostation/$container:${ARCH}
+    - env:
+        - container: snapcast
+        - ARCH: "armv6"
+        - dockerfile: container/snapcast/docker-compose.yml
+      script:
+        - docker run --rm --privileged multiarch/qemu-user-static:register --reset
+        - docker-compose -f $dockerfile build
+        - docker-compose -f $dockerfile up -d
+        - docker-compose -f $dockerfile down
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        - docker push audiostation/$container:${ARCH}
+    - env:
+        - container: spotify
+        - ARCH: "armv6"
+        - dockerfile: container/spotify/docker-compose.yml
+      script:
+        - docker run --rm --privileged multiarch/qemu-user-static:register --reset
+        - docker-compose -f $dockerfile build
+        - docker-compose -f $dockerfile up -d
+        - docker-compose -f $dockerfile down
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        - docker push audiostation/$container:${ARCH}
+    - env:
+        - container: upmpdcli
+        - ARCH: "armv6"
+        - dockerfile: container/upmpdcli/docker-compose.yml
+      script:
+        - docker run --rm --privileged multiarch/qemu-user-static:register --reset
+        - docker-compose -f $dockerfile build
+        - docker-compose -f $dockerfile up -d
+        - docker-compose -f $dockerfile down
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        - docker push audiostation/$container:${ARCH}
 
 script:
   - docker-compose -f $dockerfile build
   - docker-compose -f $dockerfile up -d
   - docker-compose -f $dockerfile down
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - docker push audiostation/$container:latest
+  - docker push audiostation/$container:${ARCH}
