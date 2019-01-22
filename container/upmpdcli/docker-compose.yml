@@ -5,7 +5,8 @@ services:
     build:
       context: .
       args:
-        - ARCH
+        - arch
+        - fromimage
     container_name: upmpdcli
-    image: audiostation/upmpdcli:${ARCH}
+    image: audiostation/upmpdcli:${arch}
     network_mode: "host"

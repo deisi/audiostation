@@ -5,7 +5,7 @@ before_install:
   - sudo apt-get install qemu-system-arm
 
 before_script:
-  - export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then if [ "$TRAVIS_BRANCH" = "master" ]; then echo ""; else echo "-$TRAVIS_BRANCH"; fi; else echo ""; fi)
+  - export branch=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then if [ "$TRAVIS_branch" = "master" ]; then echo ""; else echo "-$TRAVIS_BRANCH"; fi; else echo ""; fi)
 
 jobs: 
   include:
@@ -13,23 +13,28 @@ jobs:
     - stage: build
       env:
         - container: mopidy
-        - ARCH: "amd64"
+        - arch: amd64
+        - fromimage: alpine3.8
         - dockerfile: container/mopidy/docker-compose.yml
     - env:
         - container: snapcast
-        - ARCH: "amd64"
+        - arch: amd64
+        - fromimage: alpine3.8
         - dockerfile: container/snapcast/docker-compose.yml
     - env:
         - container: spotify
-        - ARCH: "amd64"
+        - arch: amd64
+        - fromimage: debian:jessie-slim
         - dockerfile: container/spotify/docker-compose.yml
     - env:
         - container: upmpdcli
-        - ARCH: "amd64"
+        - arch: amd64
+        - fromimage: alpine3.8
         - dockerfile: container/upmpdcli/docker-compose.yml
     - env:
         - container: mopidy
-        - ARCH: "armv6"
+        - arch: armv6
+        - fromimage: arm32v6/alpine:3.8
         - dockerfile: container/mopidy/docker-compose.yml
       script:
         - docker run --rm --privileged multiarch/qemu-user-static:register --reset
@@ -37,10 +42,11 @@ jobs:
         - docker-compose -f $dockerfile up -d
         - docker-compose -f $dockerfile down
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-        - docker push audiostation/$container:${ARCH}${BRANCH}
+        - docker push audiostation/$container:${arch}${branch}
     - env:
         - container: snapcast
-        - ARCH: "armv6"
+        - arch: armv6
+        - fromimage: arm32v6/alpine:3.8
         - dockerfile: container/snapcast/docker-compose.yml
       script:
         - docker run --rm --privileged multiarch/qemu-user-static:register --reset
@@ -48,10 +54,11 @@ jobs:
         - docker-compose -f $dockerfile up -d
         - docker-compose -f $dockerfile down
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-        - docker push audiostation/$container:${ARCH}${BRANCH}
+        - docker push audiostation/$container:${arch}${branch}
     - env:
         - container: spotify
-        - ARCH: "armv6"
+        - arch: armv6
+        - fromimage: armhf/debian-slim
         - dockerfile: container/spotify/docker-compose.yml
       script:
         - docker run --rm --privileged multiarch/qemu-user-static:register --reset
@@ -59,10 +66,11 @@ jobs:
         - docker-compose -f $dockerfile up -d
         - docker-compose -f $dockerfile down
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-        - docker push audiostation/$container:${ARCH}${BRANCH}
+        - docker push audiostation/$container:${arch}${branch}
     - env:
         - container: upmpdcli
-        - ARCH: "armv6"
+        - arch: armv6
+        - fromimage: arm32v6/alpine:3.8
         - dockerfile: container/upmpdcli/docker-compose.yml
       script:
         - docker run --rm --privileged multiarch/qemu-user-static:register --reset
@@ -70,7 +78,7 @@ jobs:
         - docker-compose -f $dockerfile up -d
         - docker-compose -f $dockerfile down
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-        - docker push audiostation/$container:${ARCH}${BRANCH}
+        - docker push audiostation/$container:${arch}${branch}
     - stage: compose
       script:
         - docker-compose build
@@ -82,4 +90,4 @@ script:
   - docker-compose -f $dockerfile up -d
   - docker-compose -f $dockerfile down
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - docker push audiostation/$container:${ARCH}${BRANCH}
+  - docker push audiostation/$container:${arch}${branch}

@@ -1,4 +1,5 @@
-FROM multiarch/alpine:3.8
+ARG fromimage
+FROM $fromimage
 
 RUN mkdir /etc/default && mkdir /etc/mopidy
 

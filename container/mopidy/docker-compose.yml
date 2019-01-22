@@ -5,9 +5,10 @@ services:
     build:
       context: .
       args:
-        - ARCH
+        - arch
+        - fromimage
     container_name: mopidy
-    image: audiostation/mopidy:${ARCH}
+    image: audiostation/mopidy:${arch}
     ports:
       - "6600:6600"
       - "6680:6680"

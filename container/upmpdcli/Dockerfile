@@ -1,4 +1,5 @@
-FROM multiarch/alpine:3.8
+ARG fromimage
+FROM $fromimage
 
 RUN apk update \
   && apk upgrade \
