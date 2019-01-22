@@ -37,7 +37,7 @@ jobs:
         - DOCKERFILE: container/mopidy/docker-compose.yml
       script:
         - docker run --rm --privileged multiarch/qemu-user-static:register --reset
-        - docker-compose -f $DOCKERFILE build $CONTAINER
+        - docker-compose -f $DOCKERFILE build --build-arg FROMIMAGE=$FROMIMAGE --build-arg ARCH=$ARCH $CONTAINER
         - docker-compose -f $DOCKERFILE up -d
         - docker-compose -f $DOCKERFILE down
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
@@ -49,7 +49,7 @@ jobs:
         - DOCKERFILE: container/snapcast/docker-compose.yml
       script:
         - docker run --rm --privileged multiarch/qemu-user-static:register --reset
-        - docker-compose -f $DOCKERFILE build $CONTAINER
+        - docker-compose -f $DOCKERFILE build --build-arg FROMIMAGE=$FROMIMAGE --build-arg ARCH=$ARCH $CONTAINER
         - docker-compose -f $DOCKERFILE up -d
         - docker-compose -f $DOCKERFILE down
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
@@ -61,7 +61,7 @@ jobs:
         - DOCKERFILE: container/spotify/docker-compose.yml
       script:
         - docker run --rm --privileged multiarch/qemu-user-static:register --reset
-        - docker-compose -f $DOCKERFILE build $CONTAINER
+        - docker-compose -f $DOCKERFILE build --build-arg FROMIMAGE=$FROMIMAGE --build-arg ARCH=$ARCH $CONTAINER
         - docker-compose -f $DOCKERFILE up -d
         - docker-compose -f $DOCKERFILE down
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
@@ -86,7 +86,7 @@ jobs:
         - docker-compose down
 
 script:
-  - docker-compose -f $DOCKERFILE build $CONTAINER
+  - docker-compose -f $DOCKERFILE build --build-arg FROMIMAGE=$FROMIMAGE --build-arg ARCH=$ARCH $CONTAINER
   - docker-compose -f $DOCKERFILE up -d
   - docker-compose -f $DOCKERFILE down
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
