@@ -5,7 +5,8 @@ services:
     build:
       context: .
       args:
-        - ARCH
+        - arch
+        - fromimage
     container_name: spotify
     image: audiostation/spotify:${ARCH}
     network_mode: "host"
