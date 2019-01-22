@@ -14,12 +14,12 @@ jobs:
       env:
         - container: mopidy
         - arch: amd64
-        - fromimage: alpine3.8
+        - fromimage: alpine:3.8
         - dockerfile: container/mopidy/docker-compose.yml
     - env:
         - container: snapcast
         - arch: amd64
-        - fromimage: alpine3.8
+        - fromimage: alpine:3.8
         - dockerfile: container/snapcast/docker-compose.yml
     - env:
         - container: spotify
@@ -29,7 +29,7 @@ jobs:
     - env:
         - container: upmpdcli
         - arch: amd64
-        - fromimage: alpine3.8
+        - fromimage: alpine:3.8
         - dockerfile: container/upmpdcli/docker-compose.yml
     - env:
         - container: mopidy
