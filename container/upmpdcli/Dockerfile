@@ -1,5 +1,5 @@
-ARG fromimage
-FROM $fromimage
+ARG FROMIMAGE
+FROM $FROMIMAGE
 
 RUN apk update \
   && apk upgrade \

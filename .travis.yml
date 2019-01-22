@@ -10,74 +10,74 @@ jobs:
     # AMD64 builds
     - stage: build
       env:
-        - container: mopidy
-        - arch: amd64
-        - fromimage: alpine:3.8
-        - dockerfile: container/mopidy/docker-compose.yml
+        - CONTAINER: mopidy
+        - ARCH: amd64
+        - FROMIMAGE: alpine:3.8
+        - DOCKERFILE: container/mopidy/docker-compose.yml
     - env:
-        - container: snapcast
-        - arch: amd64
-        - fromimage: alpine:3.8
-        - dockerfile: container/snapcast/docker-compose.yml
+        - CONTAINER: snapcast
+        - ARCH: amd64
+        - FROMIMAGE: alpine:3.8
+        - DOCKERFILE: container/snapcast/docker-compose.yml
     - env:
-        - container: spotify
-        - arch: amd64
-        - fromimage: debian:jessie-slim
-        - dockerfile: container/spotify/docker-compose.yml
+        - CONTAINER: spotify
+        - ARCH: amd64
+        - FROMIMAGE: debian:jessie-slim
+        - DOCKERFILE: container/spotify/docker-compose.yml
     - env:
-        - container: upmpdcli
-        - arch: amd64
-        - fromimage: alpine:3.8
-        - dockerfile: container/upmpdcli/docker-compose.yml
+        - CONTAINER: upmpdcli
+        - ARCH: amd64
+        - FROMIMAGE: alpine:3.8
+        - DOCKERFILE: container/upmpdcli/docker-compose.yml
 
     - env:
-        - container: mopidy
-        - arch: armv6
-        - fromimage: multiarch/alpine:armhf-v3.8
-        - dockerfile: container/mopidy/docker-compose.yml
+        - CONTAINER: mopidy
+        - ARCH: armv6
+        - FROMIMAGE: multiarch/alpine:armhf-v3.8
+        - DOCKERFILE: container/mopidy/docker-compose.yml
       script:
         - docker run --rm --privileged multiarch/qemu-user-static:register --reset
-        - docker-compose -f $dockerfile build $container
-        - docker-compose -f $dockerfile up -d
-        - docker-compose -f $dockerfile down
+        - docker-compose -f $DOCKERFILE build $CONTAINER
+        - docker-compose -f $DOCKERFILE up -d
+        - docker-compose -f $DOCKERFILE down
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-        - docker push audiostation/$container:${arch}
+        - docker push audiostation/$CONTAINER:${ARCH}
     - env:
-        - container: snapcast
-        - arch: armv6
-        - fromimage: multiarch/alpine:armhf-v3.8
-        - dockerfile: container/snapcast/docker-compose.yml
+        - CONTAINER: snapcast
+        - ARCH: armv6
+        - FROMIMAGE: multiarch/alpine:armhf-v3.8
+        - DOCKERFILE: container/snapcast/docker-compose.yml
       script:
         - docker run --rm --privileged multiarch/qemu-user-static:register --reset
-        - docker-compose -f $dockerfile build $container
-        - docker-compose -f $dockerfile up -d
-        - docker-compose -f $dockerfile down
+        - docker-compose -f $DOCKERFILE build $CONTAINER
+        - docker-compose -f $DOCKERFILE up -d
+        - docker-compose -f $DOCKERFILE down
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-        - docker push audiostation/$container:${arch}
+        - docker push audiostation/$CONTAINER:${ARCH}
     - env:
-        - container: spotify
-        - arch: armv6
-        - fromimage: multiarch/ubuntu-core:armhf-bionic
-        - dockerfile: container/spotify/docker-compose.yml
+        - CONTAINER: spotify
+        - ARCH: armv6
+        - FROMIMAGE: multiarch/ubuntu-core:armhf-bionic
+        - DOCKERFILE: container/spotify/docker-compose.yml
       script:
         - docker run --rm --privileged multiarch/qemu-user-static:register --reset
-        - docker-compose -f $dockerfile build $container
-        - docker-compose -f $dockerfile up -d
-        - docker-compose -f $dockerfile down
+        - docker-compose -f $DOCKERFILE build $CONTAINER
+        - docker-compose -f $DOCKERFILE up -d
+        - docker-compose -f $DOCKERFILE down
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-        - docker push audiostation/$container:${arch}
+        - docker push audiostation/$CONTAINER:${ARCH}
     - env:
-        - container: upmpdcli
-        - arch: armv6
-        - fromimage: multiarch/alpine:armhf-v3.8
-        - dockerfile: container/upmpdcli/docker-compose.yml
+        - CONTAINER: upmpdcli
+        - ARCH: armv6
+        - FROMIMAGE: multiarch/alpine:armhf-v3.8
+        - DOCKERFILE: container/upmpdcli/docker-compose.yml
       script:
         - docker run --rm --privileged multiarch/qemu-user-static:register --reset
-        - docker-compose -f $dockerfile build $container
-        - docker-compose -f $dockerfile up -d
-        - docker-compose -f $dockerfile down
+        - docker-compose -f $DOCKERFILE build $CONTAINER
+        - docker-compose -f $DOCKERFILE up -d
+        - docker-compose -f $DOCKERFILE down
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-        - docker push audiostation/$container:${arch}
+        - docker push audiostation/$CONTAINER:${ARCH}
     - stage: compose
       script:
         - docker-compose build
@@ -85,8 +85,8 @@ jobs:
         - docker-compose down
 
 script:
-  - docker-compose -f $dockerfile build $container
-  - docker-compose -f $dockerfile up -d
-  - docker-compose -f $dockerfile down
+  - docker-compose -f $DOCKERFILE build $CONTAINER
+  - docker-compose -f $DOCKERFILE up -d
+  - docker-compose -f $DOCKERFILE down
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - docker push audiostation/$container:${arch}
+  - docker push audiostation/$CONTAINER:${ARCH}

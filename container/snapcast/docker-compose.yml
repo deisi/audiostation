@@ -5,5 +5,4 @@ services:
     build:
       context: .
       args:
-        - fromimage
-        - arch
+        - FROMIMAGE
