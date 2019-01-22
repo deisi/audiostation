@@ -37,7 +37,7 @@ jobs:
         - dockerfile: container/mopidy/docker-compose.yml
       script:
         - docker run --rm --privileged multiarch/qemu-user-static:register --reset
-        - docker-compose -f $dockerfile build
+        - docker-compose -f $dockerfile build $container
         - docker-compose -f $dockerfile up -d
         - docker-compose -f $dockerfile down
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
@@ -49,7 +49,7 @@ jobs:
         - dockerfile: container/snapcast/docker-compose.yml
       script:
         - docker run --rm --privileged multiarch/qemu-user-static:register --reset
-        - docker-compose -f $dockerfile build
+        - docker-compose -f $dockerfile build $container
         - docker-compose -f $dockerfile up -d
         - docker-compose -f $dockerfile down
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
@@ -61,7 +61,7 @@ jobs:
         - dockerfile: container/spotify/docker-compose.yml
       script:
         - docker run --rm --privileged multiarch/qemu-user-static:register --reset
-        - docker-compose -f $dockerfile build
+        - docker-compose -f $dockerfile build $container
         - docker-compose -f $dockerfile up -d
         - docker-compose -f $dockerfile down
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
@@ -73,7 +73,7 @@ jobs:
         - dockerfile: container/upmpdcli/docker-compose.yml
       script:
         - docker run --rm --privileged multiarch/qemu-user-static:register --reset
-        - docker-compose -f $dockerfile build
+        - docker-compose -f $dockerfile build $container
         - docker-compose -f $dockerfile up -d
         - docker-compose -f $dockerfile down
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
@@ -85,7 +85,7 @@ jobs:
         - docker-compose down
 
 script:
-  - docker-compose -f $dockerfile build
+  - docker-compose -f $dockerfile build $container
   - docker-compose -f $dockerfile up -d
   - docker-compose -f $dockerfile down
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
