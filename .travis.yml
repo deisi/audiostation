@@ -6,12 +6,17 @@ jobs:
     - stage: build
       env:
         - container: mopidy
+        - dockerfile: container/mopidy/docker-compose.yml
     - env:
         - container: snapcast
+        - dockerfile: container/snapcast/docker-compose.yml
     - env:
         - container: spotify
+        - dockerfile: container/spotify/docker-compose.yml
     - env:
         - container: upmpdcli
+        - ARCH: "amd64"
+        - dockerfile: container/upmpdcli/docker-compose.yml
     - stage: compose
       script:
         - docker-compose build
@@ -19,8 +24,8 @@ jobs:
         - docker-compose down
 
 script:
-  - docker-compose -f container/$container/docker-compose.yml build
-  - docker-compose -f container/$container/docker-compose.yml up -d
-  - docker-compose -f container/$container/docker-compose.yml down
+  - docker-compose -f $dockerfile build
+  - docker-compose -f $dockerfile up -d
+  - docker-compose -f $dockerfile down
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker push audiostation/$container:latest

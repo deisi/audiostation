@@ -1,8 +1,10 @@
 FROM debian:jessie-slim
 MAINTAINER Malte Deiseroth <mdeiseroth88@gmail.com>
-ARG VERSION=v0.2.3
-ARG DATE=2018-10-21
-ARG ARCH=amd64
+ARG VERSION="v0.2.3"
+# for some reason there is a version and a date o.O
+ARG DATE="2018-10-21"
+#amd64|armv6
+ARG ARCH
 
 
 RUN apt-get update -qq

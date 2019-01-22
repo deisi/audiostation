@@ -4,6 +4,8 @@ services:
   spotify:
     build:
       context: .
+      args:
+        - ARCH
     container_name: spotify
     image: audiostation/spotify:latest
     network_mode: "host"
