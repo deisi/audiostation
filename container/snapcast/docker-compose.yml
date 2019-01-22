@@ -6,4 +6,6 @@ services:
       context: .
       args:
         - FROMIMAGE
-    image: "audiostation/snapcast:${ARCH}"
+    image: "audiostation/snapcast:${SARCH}"
+    # This command is here for test purpose
+    command: "snapclient -h snapserver"

@@ -5,7 +5,7 @@ services:
     build:
       context: .
       args:
-        - ARCH
+        - SARCH
         - FROMIMAGE
     container_name: spotify
     image: "audiostation/spotify:${ARCH}"

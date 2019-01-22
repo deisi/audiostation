@@ -6,5 +6,5 @@ services:
       context: .
       args:
         - FROMIMAGE
-    image: "audiostation/upmpdcli:${ARCH}"
+    image: "audiostation/upmpdcli:${SARCH}"
     network_mode: "host"

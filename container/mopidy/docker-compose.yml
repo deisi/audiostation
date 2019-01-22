@@ -7,7 +7,7 @@ services:
       args:
         - FROMIMAGE
     container_name: "mopidy"
-    image: "audiostation/mopidy:${ARCH}"
+    image: "audiostation/mopidy:${SARCH}"
     ports:
       - "6600:6600"
       - "6680:6680"
