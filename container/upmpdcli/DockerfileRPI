@@ -7,7 +7,6 @@ RUN apt-get update  \
   && echo "deb-src http://www.lesbonscomptes.com/upmpdcli/downloads/raspbian/ stretch main" >> /etc/apt/sources.list.d/upmpdcli.list \
   && apt-get update \
   && apt-get install upmpdcli -y --allow-unauthenticated \
-  && apt-get remove -y --purge apt-transport-https ca-certificates \
   && apt-get autoremove -y
 
 COPY upmpdcli.conf /etc/upmpdcli.conf
