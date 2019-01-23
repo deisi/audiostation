@@ -7,5 +7,5 @@ services:
       dockerfile: DockerfileRPI
       args:
         - FROMIMAGE
-    image: "audiostation/upmpdcli:${SARCH}"
+    image: "audiostation/upmpdcli:${BUILDARCH}"
     network_mode: "host"

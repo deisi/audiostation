@@ -5,10 +5,10 @@ services:
     build:
       context: .
       args:
-        - SARCH
+        - BUILDARCH
         - FROMIMAGE
     container_name: spotify
-    image: "audiostation/spotify:${SARCH}"
+    image: "audiostation/spotify:${BUILDARCH}"
     network_mode: "host"
     volumes:
       - /tmp/sharesound:/tmp/sharesound

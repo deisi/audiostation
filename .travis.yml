@@ -11,43 +11,43 @@ jobs:
     - stage: build
       env:
         - CONTAINER: mopidy
-        - SARCH: amd64
+        - BUILDARCH: amd64
         - FROMIMAGE: alpine:3.8
         - DOCKERFILE: container/mopidy/docker-compose.yml
     - env:
         - CONTAINER: snapcast
-        - SARCH: amd64
+        - BUILDARCH: amd64
         - FROMIMAGE: alpine:3.8
         - DOCKERFILE: container/snapcast/docker-compose.yml
     - env:
         - CONTAINER: spotify
-        - SARCH: amd64
+        - BUILDARCH: amd64
         - FROMIMAGE: debian:jessie-slim
         - DOCKERFILE: container/spotify/docker-compose.yml
     - env:
         - CONTAINER: upmpdcli
-        - SARCH: amd64
+        - BUILDARCH: amd64
         - FROMIMAGE: alpine:3.8
         - DOCKERFILE: container/upmpdcli/docker-compose.yml
 
     - env:
         - CONTAINER: mopidy
-        - SARCH: armv6
+        - BUILDARCH: armv6
         - FROMIMAGE: multiarch/alpine:armhf-v3.8
         - DOCKERFILE: container/mopidy/docker-compose.yml
     - env:
         - CONTAINER: snapcast
-        - SARCH: armv6
+        - BUILDARCH: armv6
         - FROMIMAGE: multiarch/alpine:armhf-v3.8
         - DOCKERFILE: container/snapcast/docker-compose.yml
     - env:
         - CONTAINER: spotify
-        - SARCH: armv6
+        - BUILDARCH: armv6
         - FROMIMAGE: multiarch/ubuntu-core:armhf-bionic
         - DOCKERFILE: container/spotify/docker-compose.yml
     - env:
         - CONTAINER: upmpdcli
-        - SARCH: armv6
+        - BUILDARCH: armv6
         - FROMIMAGE: multiarch/debian-debootstrap:armhf-stretch-slim
         - DOCKERFILE: container/upmpdcli/docker-composeRPI.yml
     - stage: compose
@@ -58,8 +58,8 @@ jobs:
 
 script:
   - docker run --rm --privileged multiarch/qemu-user-static:register --reset
-  - docker-compose -f $DOCKERFILE build --build-arg FROMIMAGE=$FROMIMAGE --build-arg SARCH=$SARCH $CONTAINER
+  - docker-compose -f $DOCKERFILE build --build-arg FROMIMAGE=$FROMIMAGE --build-arg BUILDARCH=$BUILDARCH $CONTAINER
   - docker-compose -f $DOCKERFILE up -d
   - docker-compose -f $DOCKERFILE down
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - docker push audiostation/$CONTAINER:${SARCH}
+  - docker push audiostation/$CONTAINER:${BUILDARCH}
