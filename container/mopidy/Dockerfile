@@ -6,26 +6,11 @@ RUN mkdir /etc/default && mkdir /etc/mopidy
 RUN apk update \
   && apk upgrade \
   && apk add --no-cache \
-  --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing \
-  mopidy
-
-# I cant explain why, but to me it seems
-# I have less pause in streams if I
-# also install these. However image size
-# also grows by about 80MB
-#RUN apk add --no-cache \
-#  gst-plugins-base0.10 \
-#  gst-plugins-good0.10 \
-#  gst-plugins-ugly0.10 \
-#  py-gst0.10
-
-## Install Pip to install extensions
-RUN apk add --no-cache \
-  py-pip \
-  && pip install --upgrade pip
-
-## Install extensions
-RUN pip install -U Mopidy-MusicBox-Webclient
+    --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing \
+    mopidy \
+  && apk add --no-cache py-pip \
+  && pip install --upgrade pip \
+  && pip install -U Mopidy-MusicBox-Webclient
 
 ##  Copy fallback configuration.
 COPY mopidy.conf /etc/default/mopidy.conf

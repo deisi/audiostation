@@ -2,12 +2,14 @@ ARG FROMIMAGE
 FROM $FROMIMAGE
 
 RUN apt-get update  \
-  && apt-get install -y --force-yes apt-transport-https ca-certificates
-RUN echo "deb http://www.lesbonscomptes.com/upmpdcli/downloads/raspbian/ stretch main" > /etc/apt/sources.list.d/upmpdcli.list
-RUN echo "deb-src http://www.lesbonscomptes.com/upmpdcli/downloads/raspbian/ stretch main" >> /etc/apt/sources.list.d/upmpdcli.list
+  && apt-get install -y --force-yes apt-transport-https ca-certificates \
+  && echo "deb http://www.lesbonscomptes.com/upmpdcli/downloads/raspbian/ stretch main" > /etc/apt/sources.list.d/upmpdcli.list \
+  && echo "deb-src http://www.lesbonscomptes.com/upmpdcli/downloads/raspbian/ stretch main" >> /etc/apt/sources.list.d/upmpdcli.list \
+  && apt-get update \
+  && apt-get install upmpdcli -y --force-yes \
+  && apt-get remove -y --force-yes --purge apt-transport-https ca-certificates \
+  && apt-get autoremove -Y --force-yes
 
-RUN apt-get update
-RUN apt-get install upmpdcli -y --force-yes
 COPY upmpdcli.conf /etc/upmpdcli.conf
 
 EXPOSE 1900/udp
