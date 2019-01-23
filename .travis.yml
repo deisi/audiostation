@@ -48,7 +48,7 @@ jobs:
     - env:
         - CONTAINER: upmpdcli
         - SARCH: armv6
-        - FROMIMAGE: multiarch/debian-debootstrap:armhf-wheezy-slim
+        - FROMIMAGE: multiarch/debian-debootstrap:armhf-stretch-slim
         - DOCKERFILE: container/upmpdcli/docker-composeRPI.yml
     - stage: compose
       script:
