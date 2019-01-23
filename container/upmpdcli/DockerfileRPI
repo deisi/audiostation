@@ -1,8 +1,8 @@
 ARG FROMIMAGE
 FROM $FROMIMAGE
 
-RUN apt-get update \
-  && apt-get install apt-transport-https ca-certificates
+RUN apt-get update  \
+  && apt-get install -y --force-yes apt-transport-https ca-certificates
 RUN echo "deb http://www.lesbonscomptes.com/upmpdcli/downloads/raspbian/ stretch main" > /etc/apt/sources.list.d/upmpdcli.list
 RUN echo "deb-src http://www.lesbonscomptes.com/upmpdcli/downloads/raspbian/ stretch main" >> /etc/apt/sources.list.d/upmpdcli.list
 
