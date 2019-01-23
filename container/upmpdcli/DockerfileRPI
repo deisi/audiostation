@@ -1,0 +1,13 @@
+ARG FROMIMAGE
+FROM $FROMIMAGE
+
+RUN echo "deb http://www.lesbonscomptes.com/upmpdcli/downloads/raspbian-jessie/ unstable main" > /etc/apt/sources.list.d/upmpdcli.list
+RUN echo "deb-src http://www.lesbonscomptes.com/upmpdcli/downloads/raspbian-jessie/ unstable main" >> /etc/apt/sources.list.d/upmpdcli.list
+
+RUN apt-get update
+RUN apt-get install upmpdcli -y --force-yes
+
+EXPOSE 1900/udp
+EXPOSE 49152
+
+ENTRYPOINT ["upmpdcli"]

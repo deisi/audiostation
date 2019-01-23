@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  upmpdcli:
+    build:
+      context: .
+      dockerfile: DockerfileRPI
+      args:
+        - FROMIMAGE
+    image: "audiostation/upmpdcli:${SARCH}"
+    network_mode: "host"

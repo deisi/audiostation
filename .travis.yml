@@ -45,12 +45,11 @@ jobs:
         - SARCH: armv6
         - FROMIMAGE: multiarch/ubuntu-core:armhf-bionic
         - DOCKERFILE: container/spotify/docker-compose.yml
-    # Doesnt exist yet
-    #- env:
-    #    - CONTAINER: upmpdcli
-    #    - SARCH: armv6
-    #    - FROMIMAGE: multiarch/alpine:armhf-v3.8
-    #    - DOCKERFILE: container/upmpdcli/docker-compose.yml
+    - env:
+        - CONTAINER: upmpdcli
+        - SARCH: armv6
+        - FROMIMAGE: multiarch/debian-debootstrap:armhf-wheezy-slim
+        - DOCKERFILE: container/upmpdcli/docker-composeRPI.yml
     - stage: compose
       script:
         - docker-compose build
