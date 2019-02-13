@@ -2,7 +2,7 @@ ARG FROMIMAGE
 FROM $FROMIMAGE
 MAINTAINER Malte Deiseroth <mdeiseroth88@gmail.com>
 ARG BUILDARCH
-ARG VERSION="v0.2.3"
+ARG VERSION="v0.2.4"
 # for some reason there is a version and a date o.O
 ARG DATE="2018-10-21"
 

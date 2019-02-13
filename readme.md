@@ -32,8 +32,27 @@ kodi ](https://kodi.tv/) throughout your house. Open
 [http://localhost:6680](http://localhost:6680) on the Audiostation server and
 use the Mopdiy web interface.
 
+## Installation on RaspberryPI (debian)
+Docker version on debian is outdated. To install a recent version:
+```
+curl -fsSL get.docker.com -o get-docker.sh && sudo sh get-docker.sh
+```
+
+Further you need `docker-compose`. For a recent version, use the pip package.
+```
+sudo apt install pip
+sudo pip install docker-compose
+```
+
+However you could choose to use `docker-compose` from debian package repository
+(didn't work for me though). If it works it might be more safe for future
+updates, because mixing packages from different sources (pip and apt) can be
+source of errors upon upgrading.
+
 ## Configure
-Adjust `docker-compose.yml` or add a `docker-compose.overwrite.yml`.
+Adjust `docker-compose.yml` or add a `docker-compose.overwrite.yml`. Adding a
+`docker-compose.overwrite.yml` is preferred, because it allows for easy upgrading
+of the `docker-compose.yml` file via git.
 
 ## Goal
 
@@ -42,7 +61,7 @@ However, I never found them very satisfying. They are often proprietary and work
 only for a very limited set of hardware, or they are not reliable, extremely
 difficult to configure or all at once. My goal is to provide a docker based
 "ready to use" solution, that allows for flexible configuration but at the same
-time just works. 
+time just works.
 
 From experience I know, that snapcast is an excellent program to share audio
 around in the local network. It is lightweight and reliable and synchronous.
